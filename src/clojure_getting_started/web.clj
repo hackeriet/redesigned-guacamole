@@ -4,7 +4,9 @@
             [compojure.handler :refer [site]]
             [compojure.route :as route]
             [clojure.java.io :as io]
-            [ring.adapter.jetty :as jetty]
+            [immutant.web             :as web]
+            [immutant.web.async       :as async]
+            [immutant.web.middleware  :as web-middleware]
             [environ.core :refer [env]]
             [clojurewerkz.machine-head.client :as mh]
             [taoensso.carmine :as car :refer (wcar)]
@@ -47,10 +49,23 @@
 (defn mqtt-to-redis [^String topic _ ^String payload]
   (wcar* (car/lpush topic payload)))
 
+(def websocket-callbacks
+  "WebSocket callback functions"
+  {:on-open   (fn [channel]
+                (async/send! channel "Ready for things!"))
+   :on-close   (fn [channel {:keys [code reason]}]
+                 (println "close code:" code "reason:" reason))
+   :on-message (fn [ch m]
+                 (async/send! ch (apply str (reverse m))))})
+
 (defn -main [& [port]]
-  (mh/subscribe mqtt {"hackeriet/+" 0} mqtt-to-redis)
+;  (mh/subscribe mqtt {"hackeriet/+" 0} mqtt-to-redis)
   (let [port (Integer. (or port (env :port) 5000))]
-    (jetty/run-jetty (site #'app) {:port port :join? false})))
+    (web/run
+      (-> app
+          (web-middleware/wrap-session)
+          (web-middleware/wrap-websocket websocket-callbacks))
+      {"port" port})))
 
 ;; For interactive development:
 ;; (.stop server)
