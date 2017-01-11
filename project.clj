@@ -12,7 +12,7 @@
                  [com.taoensso/carmine "2.15.0"]
                  [cheshire "5.6.3"]
                  [hiccup "1.0.5"]]
-  :main clojure-getting-started.web
+  :main ^:skip-aot clojure-getting-started.web
   :min-lein-version "2.0.0"
   :plugins [[environ/environ.lein "0.3.1"] [lein-ring "0.10.0"]]
   :hooks [environ.leiningen.hooks]
