@@ -88,9 +88,11 @@
     (mh/subscribe mqtt {"hackeriet/+" 0} mqtt-to-redis))
 
 
-  (let [port (Integer. (or port (env :port) 5000))]
+  (let [port (Integer. (or (env :port) port 5000))]
+    (println port)
+    (println (env :port))
     (web/run
       (-> app
           (web-middleware/wrap-session)
           (web-middleware/wrap-websocket websocket-callbacks))
-      {"port" port})))
+      {:port port})))
