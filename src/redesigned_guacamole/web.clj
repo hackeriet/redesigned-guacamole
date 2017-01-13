@@ -95,4 +95,4 @@
       (-> app
           (web-middleware/wrap-session)
           (web-middleware/wrap-websocket websocket-callbacks))
-      {:port port})))
+      {:port port :host "0.0.0.0"})))
