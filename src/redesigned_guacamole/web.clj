@@ -8,11 +8,12 @@
             [immutant.web             :as web]
             [immutant.web.async       :as webasync]
             [immutant.web.middleware  :as web-middleware]
-            [immutant.util]
+            ;[immutant.util]
             [environ.core :refer [env]]
             [clojurewerkz.machine-head.client :as mh]
             [taoensso.carmine :as car :refer (wcar)]
-            [cheshire.core :refer :all]))
+            ;[cheshire.core :refer :all]
+            ))
 
 ;; A channel for chromecast events and a mult to copy messages to all websocket
 ;; listeners.
@@ -86,7 +87,6 @@
 (defn -main [& [port]]
   (mh/subscribe mqtt {"hackeriet/+" 0} mqtt-to-redis)
   (let [port (Integer. (or port (env :port) 5000))]
-    (println port)
     (web/run
       (-> app
           (web-middleware/wrap-session)
