@@ -13,18 +13,14 @@
             [clojurewerkz.machine-head.client :as mh]
             [taoensso.carmine :as car :refer (wcar)]
             ;[cheshire.core :refer :all]
-            ))
+            )
+  (:gen-class))
 
 ;; A channel for chromecast events and a mult to copy messages to all websocket
 ;; listeners.
 ;; This probably needs to be pub/sub to support multiple topics in the future
 (def songs-chan (chan (sliding-buffer 10)))
 (def songs-mult (async/mult songs-chan))
-
-;; MQTT connection
-(def mqtt (mh/connect (env :mqtt-url) (mh/generate-id)
-                      {:username (env :mqtt-user)
-                       :password (env :mqtt-pass)}))
 
 ;; Redis
 (def redis-conn {:pool {} :spec {:uri (env :redis-url)}})
@@ -85,7 +81,13 @@
                  (println "close code:" code "reason:" reason))})
 
 (defn -main [& [port]]
-  (mh/subscribe mqtt {"hackeriet/+" 0} mqtt-to-redis)
+  ;; MQTT connection
+  (let [mqtt (mh/connect (env :mqtt-url) (mh/generate-id)
+                         {:username (env :mqtt-user)
+                          :password (env :mqtt-pass)})]
+    (mh/subscribe mqtt {"hackeriet/+" 0} mqtt-to-redis))
+
+
   (let [port (Integer. (or port (env :port) 5000))]
     (web/run
       (-> app
