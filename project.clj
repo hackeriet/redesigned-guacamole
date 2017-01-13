@@ -8,16 +8,13 @@
                  [org.immutant/web "2.1.5"]
                  [compojure "1.4.0"]
                  [ring/ring-core "1.5.1"]
-                 [ring/ring-devel "1.5.1"]
                  [environ "1.0.0"]
                  [clojurewerkz/machine_head "1.0.0-beta9"]
                  [com.taoensso/carmine "2.15.0"]
                  [cheshire "5.6.3"]
                  [hiccup "1.0.5"]]
-  :main ^:skip-aot redesigned-guacamole.web
   :min-lein-version "2.0.0"
-  :plugins [[environ/environ.lein "0.3.1"] [lein-ring "0.10.0"]]
+  :plugins [[environ/environ.lein "0.3.1"]]
   :hooks [environ.leiningen.hooks]
   :uberjar-name "redesigned-guacamole-standalone.jar"
-  :ring {:handler redesigned-guacamole.web/app}
   :profiles {:production {:env {:production true}}})
