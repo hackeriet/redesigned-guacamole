@@ -86,6 +86,7 @@
 (defn -main [& [port]]
   (mh/subscribe mqtt {"hackeriet/+" 0} mqtt-to-redis)
   (let [port (Integer. (or port (env :port) 5000))]
+    (println port)
     (web/run
       (-> app
           (web-middleware/wrap-session)
