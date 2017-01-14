@@ -19,6 +19,7 @@ function connect(){
 
 function connection_check(){
     if(!ws || ws.readyState == WebSocket.CLOSED) connect();
+    ws.send("ping"); // heroku..
 }
 
 connect();

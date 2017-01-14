@@ -8,12 +8,10 @@
             [immutant.web             :as web]
             [immutant.web.async       :as webasync]
             [immutant.web.middleware  :as web-middleware]
-            ;[immutant.util]
+            ;[cheshire.core :refer :all]
             [environ.core :refer [env]]
             [clojurewerkz.machine-head.client :as mh]
-            [taoensso.carmine :as car :refer (wcar)]
-            ;[cheshire.core :refer :all]
-            )
+            [taoensso.carmine :as car :refer (wcar)])
   (:gen-class))
 
 ;; A channel for chromecast events and a mult to copy messages to all websocket
@@ -38,11 +36,12 @@
          (include-js "js/songs.js")
          [:body
           [:div {:id "songs"}
-           [:div {:v-for "song in songs" :v-if "song.title"}
-            [:img {:v-if "song.images" (symbol ":src") "song.images[0].url"}]
-            [:span {:class "title"} "{{song.title}}"]
-            [:span {:class "artist"} "{{song.artist}}"]
-            [:span {:class "album"} "{{song.albumName}}"]]]]))
+           [:transition-group {:name "effect" :tag "span"}
+            [:div {:class="song" :v-for "song in songs" :v-bind:key "song" :v-if "song.title"}
+             [:img {:v-if "song.images" (symbol ":src") "song.images[0].url"}]
+              [:h3 {:class "title"} "{{song.title}}"]
+              [:h3 {:class "artist"} "{{song.artist}}"]
+              [:h3 {:class "album"} "{{song.albumName}}"]]]]]))
 
 ;; Return chromecast page
 (defn chromecast-songs [topic]
@@ -65,7 +64,7 @@
 
 ;; Subscription callback, stores in redis and pushes to websockets if chromecast
 (defn mqtt-to-redis [^String topic _ ^String payload]
-  (wcar* (car/lpush topic payload))
+;;  (wcar* (car/lpush topic payload))
   (if (= "hackeriet/chromecast" topic)
     (put! songs-chan (String. payload "UTF-8"))))
 
@@ -86,11 +85,7 @@
                          {:username (env :mqtt-user)
                           :password (env :mqtt-pass)})]
     (mh/subscribe mqtt {"hackeriet/+" 0} mqtt-to-redis))
-
-
   (let [port (Integer. (or (env :port) port 5000))]
-    (println port)
-    (println (env :port))
     (web/run
       (-> app
           (web-middleware/wrap-session)
