@@ -64,7 +64,7 @@
 
 ;; Subscription callback, stores in redis and pushes to websockets if chromecast
 (defn mqtt-to-redis [^String topic _ ^String payload]
-;;  (wcar* (car/lpush topic payload))
+  (wcar* (car/lpush topic payload))
   (if (= "hackeriet/chromecast" topic)
     (put! songs-chan (String. payload "UTF-8"))))
 
