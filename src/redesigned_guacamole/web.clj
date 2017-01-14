@@ -84,7 +84,7 @@
   (let [mqtt (mh/connect (env :mqtt-url) (mh/generate-id)
                          {:username (env :mqtt-user)
                           :password (env :mqtt-pass)})]
-    (mh/subscribe mqtt {"hackeriet/+" 0} mqtt-to-redis))
+    (mh/subscribe mqtt {"hackeriet/#" 0} mqtt-to-redis))
   (let [port (Integer. (or (env :port) port 5000))]
     (web/run
       (-> app
