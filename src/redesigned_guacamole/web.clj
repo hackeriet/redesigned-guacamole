@@ -35,17 +35,16 @@
            (concat "const data=[" (clojure.string/join "," elems) "]")
           ]]
          (include-js "js/songs.js")
-         (include-js "js/materialize.min.js")
+         ;(include-js "js/materialize.min.js")
          [:body
-          [:div {:id "songs"}
-           [:transition-group {:name "effect" :tag "span"}
-            [:div {:class "col s12 m4 song" :v-for "song in songs" :v-bind:key "song" :v-if "song.title"}
-             [:div {:class "card"}
-              [:div {:class "card-image"}
-               [:img {:v-if "song.images" (symbol ":src") "song.images[0].url"}]
-               [:span {:class "card-title"} "{{song.title}}"]]
-              [:div {:class "card-content"}
-               [:p "{{song.artist}}<br>{{song.album}}"]]]]]]]))
+          [:transition-group {:name "effect" :tag "div" :id "songs"}
+           [:div {:class "col s12 m4 song" :v-for "song in songs" :v-bind:key "song" :v-if "song.title"}
+            [:div {:class "card"}
+             [:div {:class "card-image"}
+              [:img {:v-if "song.images" (symbol ":src") "song.images[0].url"}]
+              [:span {:class "card-title"} "{{song.title}}"]]
+             [:div {:class "card-content"}
+              [:p "{{song.artist}}<br>{{song.album}}"]]]]]]))
 
 ;; Return chromecast page
 (defn chromecast-songs [topic]
