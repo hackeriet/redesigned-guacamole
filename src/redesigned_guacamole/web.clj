@@ -44,7 +44,9 @@
               [:img {:v-if "song.images" (symbol ":src") "song.images[0].url"}]
               [:span {:class "card-title"} "{{song.title}}"]]
              [:div {:class "card-content"}
-              [:p "{{song.artist}}<br>{{song.album}}"]]]]]]))
+              [:p "{{song.artist}}<br>{{song.album}}"]]
+             [:div {:class "card-action"}
+              [:a {:href "{{song.url}}"}]]]]]]))
 
 ;; Return chromecast page
 (defn chromecast-songs [topic]
