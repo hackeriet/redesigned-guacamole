@@ -28,20 +28,29 @@
 (defn songs [elems]
   (html5 [:head
           [:title "Hackeriets sick beats"]
+          (include-css "css/materialize.min.css")
           (include-css "css/songs.css")
           (include-js "https://unpkg.com/vue/dist/vue.js")
           [:script {:type "text/javascript"}
            (concat "const data=[" (clojure.string/join "," elems) "]")
-           ]]
+          ]]
          (include-js "js/songs.js")
          [:body
           [:div {:id "songs"}
            [:transition-group {:name "effect" :tag "span"}
-            [:div {:class="song" :v-for "song in songs" :v-bind:key "song" :v-if "song.title"}
-             [:img {:v-if "song.images" (symbol ":src") "song.images[0].url"}]
-              [:h3 {:class "title"} "{{song.title}}"]
-              [:h3 {:class "artist"} "{{song.artist}}"]
-              [:h3 {:class "album"} "{{song.albumName}}"]]]]]))
+            [:div {:class="col s12 m4 song" :v-for "song in songs" :v-bind:key "song" :v-if "song.title"}
+             [:div {:class="card"}
+              [:div {:class="card-image"}
+               [:img {:v-if "song.images" (symbol ":src") "song.images[0].url"}]
+               [:span {:class="card-title"} "{{song.title}}"]
+              ]
+              [:div {:class="card-content"} [:p "{{song.artist}}<br>{{song.album}}"]]
+             ]
+            ]
+           ]
+          ]
+          (include-js "js/materialize.min.js")
+         ]))
 
 ;; Return chromecast page
 (defn chromecast-songs [topic]
