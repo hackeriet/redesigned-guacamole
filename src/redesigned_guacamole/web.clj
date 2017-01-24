@@ -30,23 +30,26 @@
           [:title "Hackeriets sick beats"]
           (include-css "css/materialize.min.css")
           (include-css "css/songs.css")
+          (include-css "https://fonts.googleapis.com/icon?family=Material+Icons")
           (include-js "https://unpkg.com/vue/dist/vue.js")
           [:script {:type "text/javascript"}
-           (concat "const data=[" (clojure.string/join "," elems) "]")
-          ]]
-         (include-js "js/songs.js")
-         ;(include-js "js/materialize.min.js")
+           (concat "const data=[" (clojure.string/join "," elems) "]")]
+          (include-js "js/songs.js")
+          (include-js "js/jquery-3.1.1.min.js")
+          (include-js "js/materialize.min.js")]
          [:body
-          [:transition-group {:name "effect" :tag "div" :id "songs"}
-           [:div {:class "col s12 m4 song" :v-for "song in songs" :v-bind:key "song" :v-if "song.title"}
-            [:div {:class "card"}
-             [:div {:class "card-image"}
-              [:img {:v-if "song.images" (symbol ":src") "song.images[0].url"}]
-              [:span {:class "card-title"} "{{song.title}}"]]
-             [:div {:class "card-content"}
-              [:p "{{song.artist}}<br>{{song.album}}"]]
-             [:div {:class "card-action"}
-              [:a {:href "{{song.url}}"}]]]]]]))
+          [:div {:class "container"}
+           [:div {:class "col s12 m4"}
+            [:transition-group {:name "effect" :tag "ul" :id "songs" :class "collection"}
+             [:li {:class "collection-item avatar" :v-for "song in songs" :v-bind:key "song" :v-if "song.title"}
+              [:img {:v-if "song.images" :class "circle" (symbol ":src") "song.images[0].url"}]
+              [:span {:class "title"} "{{song.title}}"]
+              [:p
+               "{{song.artist}}" [:br]
+               "{{song.title}}"]
+              ;[:a {:href "#!" :class "secondary-content"}
+              ; [:i {:class "medium material-icons"} "play_circle_outline"]]
+              ]]]]]))
 
 ;; Return chromecast page
 (defn chromecast-songs [topic]

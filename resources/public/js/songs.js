@@ -32,4 +32,3 @@ window.addEventListener('load', function () {
         el: '#songs'
     });
 });
-

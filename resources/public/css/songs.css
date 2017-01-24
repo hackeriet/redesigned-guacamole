@@ -1,22 +1,28 @@
-
-#songs div {
-    clear: both;
+body {
+  background-color: #efefef;
 }
 
-#songs img {
-    width: 400px;
-    display: inline-block;
-    vertical-align: middle;
-    padding-right: 30px;
-    float: left;
+.collection .collection-item.avatar {
+  min-height: 145px;
+  padding-left: 160px;
+  transition-property: width, height, min-height, padding-left;
+  transition-duration: 750ms;
 }
 
-#songs .title {
-    font-size: 32pt;
+.collection .collection-item.avatar .circle {
+  width: 125px;
+  height: 125px;
+  border-radius: 10px;
 }
 
-#songs .artist {
-    font-size: 24pt;
+.collection .collection-item.avatar:first-child {
+  min-height: 270px;
+  padding-left: 280px;
+}
+
+.collection .collection-item.avatar:first-child .circle {
+  width: 250px;
+  height: 250px;
 }
 
 .effect-enter-active, .effect-leave-to, .effect-move {
