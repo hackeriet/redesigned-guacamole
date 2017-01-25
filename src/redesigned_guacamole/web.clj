@@ -30,13 +30,13 @@
           [:title "Hackeriets sick beats"]
           (include-css "css/materialize.min.css")
           (include-css "css/songs.css")
-          (include-css "https://fonts.googleapis.com/icon?family=Material+Icons")
+          ;(include-css "https://fonts.googleapis.com/icon?family=Material+Icons")
           (include-js "https://unpkg.com/vue/dist/vue.js")
           [:script {:type "text/javascript"}
            (concat "const data=[" (clojure.string/join "," elems) "]")]
           (include-js "js/songs.js")
-          (include-js "js/jquery-3.1.1.min.js")
-          (include-js "js/materialize.min.js")]
+          ;(include-js "js/jquery-3.1.1.min.js")
+          ;(include-js "js/materialize.min.js")]
          [:body
           [:div {:class "container"}
            [:div {:class "col s12 m4"}
