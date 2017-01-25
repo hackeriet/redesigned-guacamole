@@ -31,7 +31,7 @@
           (include-css "css/materialize.min.css")
           (include-css "css/songs.css")
           ;(include-css "https://fonts.googleapis.com/icon?family=Material+Icons")
-          (include-js "https://unpkg.com/vue/dist/vue.js")
+          (include-js "js/vue.min.js")
           [:script {:type "text/javascript"}
            (concat "const data=[" (clojure.string/join "," elems) "]")]
           (include-js "js/songs.js")
