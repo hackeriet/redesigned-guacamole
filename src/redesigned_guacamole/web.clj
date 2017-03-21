@@ -61,10 +61,19 @@
            (fn [x] (String. x))
            (wcar* (car/lrange topic 0 100))))})
 
+(defn chromecast-songs-json [topic]
+  {:status 200
+   :headers {"Content-Type" "application/json"}
+   :body (apply str ["[" (clojure.string/join "," (map
+     (fn [x] (String. x))
+     (wcar* (car/lrange topic 0 100)))) "]"])})
+
 ;; Web routes
 (defroutes app
   (GET "/" []
        (chromecast-songs "hackeriet/chromecast"))
+  (GET "/history.json" []
+       (chromecast-songs-json "hackeriet/chromecast"))
   (GET "/ping" []
        (println "ping")
        {:body "PONG"})
